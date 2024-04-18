@@ -2,9 +2,12 @@ import folium
 import json
 import streamlit as st
 from streamlit_folium import folium_static
+import requests
+
 
 # Read the GeoJSON file
 geojson_data_path = "C:/Users/luca.pizzetti/OneDrive - Engineering Group SA/_WORKING_PROGRESS/PRJ-100880_A9_SchaGaDu - General/GIS/geojson/SchaGaDu_v3.json"
+geojson_data_path = "https://raw.githubusercontent.com/Pizzzetti/Public/main/Streamlit/SchaGaDu_v3.json"
 
 # Function to get unique values for a specific property in GeoJSON
 def get_unique_property_values(geojson_data, property_name):
@@ -21,8 +24,11 @@ st.set_page_config(layout = 'wide')
 st.title('Filter GeoJSON')
 
 # Read GeoJSON data
-with open(geojson_data_path, 'r') as f:
-    geojson_data = json.load(f)
+geojson_data = None
+with st.spinner('Loading GeoJSON data...'):
+    response = requests.get(geojson_data_path)
+    if response.status_code == 200:
+        geojson_data = response.json()
 
 # Sidebar for filter selection
 with st.sidebar:

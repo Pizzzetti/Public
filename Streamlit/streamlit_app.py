@@ -6,7 +6,7 @@ import requests
 
 
 # Read the GeoJSON file
-geojson_data_path = "C:/Users/luca.pizzetti/OneDrive - Engineering Group SA/_WORKING_PROGRESS/PRJ-100880_A9_SchaGaDu - General/GIS/geojson/SchaGaDu_v3.json"
+#geojson_data_path = "C:/Users/luca.pizzetti/OneDrive - Engineering Group SA/_WORKING_PROGRESS/PRJ-100880_A9_SchaGaDu - General/GIS/geojson/SchaGaDu_v3.json"
 geojson_data_path = "https://raw.githubusercontent.com/Pizzzetti/Public/main/Streamlit/SchaGaDu_v3.json"
 
 # Function to get unique values for a specific property in GeoJSON

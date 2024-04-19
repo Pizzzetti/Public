@@ -1,5 +1,5 @@
-streamlit==1.31.1
+streamlit
 folium==0.14.0
-json
-requests
+json==2.0.9
+requests==2.27.1
 streamlit_folium

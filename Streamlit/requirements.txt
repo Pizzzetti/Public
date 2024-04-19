@@ -1,5 +1,5 @@
-streamlit: 1.31.1
-json: 2.0.9
-streamlit_folium: Version information not available
-folium: 0.14.0
-requests: 2.27.1
+streamlit==1.31.1
+folium==0.14.0
+json==2.0.9
+requests==2.27.1
+streamlit_folium

@@ -34,5 +34,5 @@ requirements = extract_requirements_from_file(file_path)
 print("Requirements connected to", file_path + ":")
 for requirement in requirements:
     version = get_library_version(requirement)
-    print(f"{requirement}: {version}")
+    print(f"{requirement}=={version}")
 

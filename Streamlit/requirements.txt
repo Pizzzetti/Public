@@ -1,5 +1,5 @@
 folium
 json
 streamlit
-streamlit-folium
+streamlit_folium
 requests

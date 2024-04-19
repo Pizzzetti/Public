@@ -1,4 +1,5 @@
 import ast
+import importlib
 
 def extract_requirements_from_file(file_path):
     with open(file_path, 'r') as f:
@@ -17,8 +18,21 @@ def extract_requirements_from_file(file_path):
 
     return requirements
 
+def get_library_version(library_name):
+    try:
+        module = importlib.import_module(library_name)
+        return module.__version__
+    except AttributeError:
+        return "Version information not available"
+    except ModuleNotFoundError:
+        return "Library not found"
+
 # Example usage:
-file_path = "C:/Users/luca.pizzetti/Dropbox/01 LUCA/04_PROGRAMMAZIONE/_GitHub/Public/Streamlit/streamlit_app.py" # Replace with the path to your Python file
+file_path = "C:/Users/luca.pizzetti/Dropbox/01 LUCA/04_PROGRAMMAZIONE/_GitHub/Public/Streamlit/streamlit_app.py"  # Replace with the path to your Python file
 requirements = extract_requirements_from_file(file_path)
+
 print("Requirements connected to", file_path + ":")
-print(requirements)
+for requirement in requirements:
+    version = get_library_version(requirement)
+    print(f"{requirement}: {version}")
+

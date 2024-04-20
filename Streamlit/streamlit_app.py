@@ -154,7 +154,7 @@ with col2:
         aliases=["KEY", "OBJ","url"],
         localize=True,
         labels=True,
-        style="background-color: yellow;"
+        style="background-color: white;"
     )
     # Update GeoJsonPopup's HTML content to include clickable link
 
@@ -170,14 +170,9 @@ with col2:
             'fillOpacity': 0.6,  # Adjust opacity of highlighted feature
         },
         tooltip=tooltip,
-        popup=GeoJsonPopup).add_to(m)
+        popup=GeoJsonPopup,
+        ).add_to(m)
 
-    # Define custom CSS styles
-
-    # Display the Folium map with click event handler
-    #folium_element = folium.Element(m._repr_html_() + js_click_handler)
     height = 450
     max_width = 1000
     folium_element = folium_static(m,width=max_width,height=height)#, width=max_width, height=height)
-
-    # Add custom CSS to maximize the width of the map container

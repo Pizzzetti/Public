@@ -176,8 +176,8 @@ with col2:
 
     # Display the Folium map with click event handler
     #folium_element = folium.Element(m._repr_html_() + js_click_handler)
-    height = 800
-    max_width = 1500
+    height = 600
+    max_width = 1200
     folium_element = folium_static(m,width=max_width,height=height)#, width=max_width, height=height)
 
     # Add custom CSS to maximize the width of the map container

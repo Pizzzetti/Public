@@ -111,7 +111,7 @@ def style_function(feature):
     }
 
 # Create a Folium map centered at a specific location
-height = 600
+height = 900
 m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width='100%', height=height)
 
 wms_url = 'https://wms.geo.admin.ch/'
@@ -164,21 +164,10 @@ geojson_layer = folium.GeoJson(
     popup=GeoJsonPopup).add_to(m)
 
 # Define custom CSS styles
-custom_css = """
-<style>
-/* Apply CSS style to path.leaflet-interactive:focus */
-path.leaflet-interactive:focus {
-    outline: none;
-}
-</style>
-"""
-
-# Add custom CSS styles to the map
-m.get_root().html.add_child(folium.Element(custom_css))
 
 # Display the Folium map with click event handler
 #folium_element = folium.Element(m._repr_html_() + js_click_handler)
-folium_element = folium_static(m, width=1600, height=height)
+folium_element = folium_static(m, width=2000, height=height)
 #popup_html = "href=https://example.com/"
 #m.add_child(folium.Popup("outline Popup on GeoJSON"))
 st.markdown(f'<iframe srcdoc="{m}" style="width: 100%; height: 500px; border: none"></iframe>', unsafe_allow_html=True)

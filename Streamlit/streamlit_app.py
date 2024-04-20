@@ -111,8 +111,8 @@ def style_function(feature):
     }
 
 # Create a Folium map centered at a specific location
-height = 900
-max_width = 3000
+height = 600
+max_width = 1000
 m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width=max_width, height=height)
 
 wms_url = 'https://wms.geo.admin.ch/'

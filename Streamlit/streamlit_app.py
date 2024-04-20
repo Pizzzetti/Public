@@ -164,10 +164,10 @@ with col2:
         filtered_geojson,
         style_function=style_function,
         highlight_function=lambda feature: {
-            'fillColor': 'red',  # Change fill color of highlighted feature
-            'color': 'red',  # Change border color of highlighted feature
+            'fillColor': 'blue',  # Change fill color of highlighted feature
+            'color': 'blue',  # Change border color of highlighted feature
             'weight': 2,  # Adjust border weight of highlighted feature
-            'fillOpacity': 0.5,  # Adjust opacity of highlighted feature
+            'fillOpacity': 0.6,  # Adjust opacity of highlighted feature
         },
         tooltip=tooltip,
         popup=GeoJsonPopup).add_to(m)

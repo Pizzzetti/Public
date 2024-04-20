@@ -1,33 +1,23 @@
+import streamlit as st
+from streamlit_folium import folium_static
 import folium
 
-# Create a map object
+# Create two columns
+col1, col2 = st.columns(2)
+
+# Create a Folium map
 m = folium.Map(location=[51.5074, -0.1278], zoom_start=10)
+folium.Marker(location=[51.5074, -0.1278], popup="London").add_to(m)
+folium.Marker(location=[48.8566, 2.3522], popup="Paris").add_to(m)
+folium.Marker(location=[40.7128, -74.0060], popup="New York").add_to(m)
+folium.Marker(location=[34.0522, -118.2437], popup="Los Angeles").add_to(m)
 
-# Define a function to be called on tooltip click
-def on_tooltip_click(feature, layer):
-    print("Tooltip clicked!")
-    # You can perform any action here when the tooltip is clicked
+# Add elements to the first column
+with col1:
+    st.header("Column 1")
+    folium_static(m)
 
-# Create a GeoJson layer
-geojson = {
-    "type": "Feature",
-    "properties": {"name": "London"},
-    "geometry": {
-        "type": "Point",
-        "coordinates": [-0.1278, 51.5074]
-    }
-}
-
-# Add GeoJson layer to the map
-folium.GeoJson(
-    geojson,
-    tooltip="Click me!",
-    popup="<b>Hello, London!</b>",
-    style_function=lambda x: {'color': 'blue'}
-).add_to(m)
-
-# Add a custom JavaScript code to handle tooltip click event
-m.add_child(folium.features.ClickForMarker(popup="Waypoint"))
-
-# Save the map to an HTML file
-m.save("map.html")
+# Add elements to the second column
+with col2:
+    st.header("Column 2")
+    st.write("This is column 2 content.")

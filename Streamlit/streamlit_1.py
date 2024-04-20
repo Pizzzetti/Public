@@ -1,17 +1,27 @@
 import streamlit as st
+from streamlit_folium import folium_static
+import folium
 
-st.sidebar.subheader("Component 1")
+# Define a Streamlit column layout with a responsive width
+st.set_page_config(layout="wide")
 
-t1 = st.sidebar.text_input("Component 1 name")
-s1 = st.sidebar.slider("Component 1 value")
+col1,col2 = st.columns(2)
 
-st.sidebar.markdown("---")
+col1.header('Sinistra')
+col2.header('Destra')
+col2.container()
+# Create a Folium map
+m = folium.Map(location=[51.5074, -0.1278], zoom_start=10)
+folium.Marker(location=[51.5074, -0.1278], popup="London").add_to(m)
+folium.Marker(location=[48.8566, 2.3522], popup="Paris").add_to(m)
+folium.Marker(location=[40.7128, -74.0060], popup="New York").add_to(m)
+folium.Marker(location=[34.0522, -118.2437], popup="Los Angeles").add_to(m)
 
-st.sidebar.subheader("Component 2")
-t2 = st.sidebar.text_input("Component 2 name")
-s2 = st.sidebar.slider("Component 2")
+# Render the Folium map inside the container
+with col2:
+    fs = folium_static(m)
+    #st.write(fs)
 
-st.title("Hello!")
-
-st.write(t1, s1)
-st.write(t2, s2)
+    #col2.write(fs)
+    # Add some content below the map
+col1.write("Some content below the map.")

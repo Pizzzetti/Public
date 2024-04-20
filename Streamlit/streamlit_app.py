@@ -10,6 +10,14 @@ geojson_data_path = "https://raw.githubusercontent.com/Pizzzetti/Public/main/Str
 geojson_data_path = "https://raw.githubusercontent.com/Pizzzetti/Public/main/Streamlit/SchaGaDu_v5_filtered_add.json"
 link_path = f'<a href="https://www.gazzetta.it">Gazzetta</a>'
 
+st.set_page_config(
+    layout="wide", page_title="GIS SchaGaDu", page_icon="🗺️",)
+
+col1,col2 = st.columns([0.05,0.95],
+                       gap="small")
+col2.title('SchaGaDu GIS')
+
+
 # Function to get unique values for a specific property in GeoJSON
 def get_unique_property_values(geojson_data, property_name):
     if property_name == 'ALL':
@@ -32,10 +40,6 @@ def create_dataframe(selected_feature):
 
 def get_filtered_GeoJSON(geojson_data_path):
     # Streamlit app
-    st.set_page_config(
-        layout="wide", page_title="GIS SchaGaDu", page_icon="🗺️",)
-    st.title('SchaGaDu GIS')
-
     # Read GeoJSON data
     geojson_data = None
     with st.spinner('Loading GeoJSON data...'):
@@ -44,31 +48,32 @@ def get_filtered_GeoJSON(geojson_data_path):
             geojson_data = response.json()
 
     # Sidebar for filter selection
-    sub1 = st.sidebar.subheader('Filter by property')
-    property_vec = ['ALL'] + list(geojson_data['features'][0]['properties'].keys())
-    filter_field = st.sidebar.selectbox('Choose a property:', options=property_vec)
-    
-    st.sidebar.markdown('---')
+    with col1:
+        sub1 = st.sidebar.subheader('Filter by property')
+        property_vec = ['ALL'] + list(geojson_data['features'][0]['properties'].keys())
+        filter_field = st.sidebar.selectbox('Choose a property:', options=property_vec)
+        
+        st.sidebar.markdown('---')
 
-    sub2 = st.sidebar.subheader('Filter by value')
-    # Get unique values for the selected property
-    property_unique_value = get_unique_property_values(geojson_data, filter_field)
-    # Multiselect for selecting multiple values
-    filter_values = st.sidebar.multiselect('Choose a value:', options=property_unique_value)
+        sub2 = st.sidebar.subheader('Filter by value')
+        # Get unique values for the selected property
+        property_unique_value = get_unique_property_values(geojson_data, filter_field)
+        # Multiselect for selecting multiple values
+        filter_values = st.sidebar.multiselect('Choose a value:', options=property_unique_value)
 
-    # Filter GeoJSON features based on selected criteria
-    if filter_field == 'ALL' or filter_values == []:
-        filtered_geojson = geojson_data
-    else:
-        filtered_features = []
-        for filter_value in filter_values:
-            for feature in geojson_data['features']:
-                if feature['properties'].get(filter_field) == filter_value:
-                    filtered_features.append(feature)
-        filtered_geojson = {
-            "type": "FeatureCollection",
-            "features": filtered_features
-        }
+        # Filter GeoJSON features based on selected criteria
+        if filter_field == 'ALL' or filter_values == []:
+            filtered_geojson = geojson_data
+        else:
+            filtered_features = []
+            for filter_value in filter_values:
+                for feature in geojson_data['features']:
+                    if feature['properties'].get(filter_field) == filter_value:
+                        filtered_features.append(feature)
+            filtered_geojson = {
+                "type": "FeatureCollection",
+                "features": filtered_features
+            }
     return filtered_geojson,property_vec,property_unique_value
 
 # Define a function to map "KB" values to RGB colors
@@ -115,62 +120,64 @@ def style_function(feature):
     }
 
 # Create a Folium map centered at a specific location
-m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width='100%', height='100%')
+with col2:
+    m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width='100%', height='100%')
 
-wms_url = 'https://wms.geo.admin.ch/'
-wms_layer = folium.raster_layers.WmsTileLayer(
-    url=wms_url,
-    name='swiss_wms',
-    layers='ch.swisstopo.landeskarte-grau-10',
-    fmt='image/jpeg',
-    transparent=True,
-    opacity=0.5  # Set opacity to 50%
-)
-wms_layer.add_to(m)
+    wms_url = 'https://wms.geo.admin.ch/'
+    wms_layer = folium.raster_layers.WmsTileLayer(
+        url=wms_url,
+        name='swiss_wms',
+        layers='ch.swisstopo.landeskarte-grau-10',
+        fmt='image/jpeg',
+        transparent=True,
+        opacity=0.5  # Set opacity to 50%
+    )
+    wms_layer.add_to(m)
 
-tooltip = folium.GeoJsonTooltip(
-    fields=['INV_KEY', 'OBJ_NAME', 'KB'],
-    aliases=['KEY:', 'OBJ:', 'ZK:'],
-    localize=True,
-    sticky=False,
-    labels=True,
-    style="""
-        background-color: #FFFFFF;
-        border: 1px solid black;
-        border-radius: 2px;
-        box-shadow: 2px;
-    """,
-    max_width=300,
-)
+    tooltip = folium.GeoJsonTooltip(
+        fields=['INV_KEY', 'OBJ_NAME', 'KB'],
+        aliases=['KEY:', 'OBJ:', 'ZK:'],
+        localize=True,
+        sticky=False,
+        labels=True,
+        style="""
+            background-color: #FFFFFF;
+            border: 1px solid black;
+            border-radius: 2px;
+            box-shadow: 2px;
+        """,
+        max_width=300,
+    )
 
-GeoJsonPopup = folium.GeoJsonPopup(
-    fields=["INV_KEY", "OBJ_NAME","link"],
-    aliases=["KEY", "OBJ","url"],
-    localize=True,
-    labels=True,
-    style="background-color: yellow;"
-)
-# Update GeoJsonPopup's HTML content to include clickable link
+    GeoJsonPopup = folium.GeoJsonPopup(
+        fields=["INV_KEY", "OBJ_NAME","link"],
+        aliases=["KEY", "OBJ","url"],
+        localize=True,
+        labels=True,
+        style="background-color: yellow;"
+    )
+    # Update GeoJsonPopup's HTML content to include clickable link
 
-filtered_geojson,property_vec,property_unique_value = get_filtered_GeoJSON(geojson_data_path)
-# Add GeoJSON layer to the map with styled features
-geojson_layer = folium.GeoJson(
-    filtered_geojson,
-    style_function=style_function,
-    highlight_function=lambda feature: {
-        'fillColor': 'red',  # Change fill color of highlighted feature
-        'color': 'red',  # Change border color of highlighted feature
-        'weight': 2,  # Adjust border weight of highlighted feature
-        'fillOpacity': 0.5,  # Adjust opacity of highlighted feature
-    },
-    tooltip=tooltip,
-    popup=GeoJsonPopup).add_to(m)
+    filtered_geojson,property_vec,property_unique_value = get_filtered_GeoJSON(geojson_data_path)
+    # Add GeoJSON layer to the map with styled features
+    geojson_layer = folium.GeoJson(
+        filtered_geojson,
+        style_function=style_function,
+        highlight_function=lambda feature: {
+            'fillColor': 'red',  # Change fill color of highlighted feature
+            'color': 'red',  # Change border color of highlighted feature
+            'weight': 2,  # Adjust border weight of highlighted feature
+            'fillOpacity': 0.5,  # Adjust opacity of highlighted feature
+        },
+        tooltip=tooltip,
+        popup=GeoJsonPopup).add_to(m)
 
-# Define custom CSS styles
+    # Define custom CSS styles
 
-# Display the Folium map with click event handler
-#folium_element = folium.Element(m._repr_html_() + js_click_handler)
-height = 800
-max_width = 1800
-folium_element = folium_static(m,width=max_width,height=height)#, width=max_width, height=height)
-# Add custom CSS to maximize the width of the map container
+    # Display the Folium map with click event handler
+    #folium_element = folium.Element(m._repr_html_() + js_click_handler)
+    height = 800
+    max_width = 1500
+    folium_element = folium_static(m,width=max_width,height=height)#, width=max_width, height=height)
+
+    # Add custom CSS to maximize the width of the map container

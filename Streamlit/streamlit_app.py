@@ -114,7 +114,7 @@ def style_function(feature):
         'fillColor': fill_color,
         'color': border_color,    # Set border color to the same as fill color
         'weight': weight_shape,            # Border weight
-        'fillOpacity': 0.5,     # Opacity of the filled area
+        'fillOpacity': 1,     # Opacity of the filled area
         'tooltip': tooltip_content,  # Add custom tooltip
         'interactive': True  # Disable interactivity to hide selection rectangle
     }

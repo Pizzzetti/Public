@@ -32,8 +32,9 @@ def create_dataframe(selected_feature):
 
 def get_filtered_GeoJSON(geojson_data_path):
     # Streamlit app
-    st.set_page_config(layout='wide')
-    st.title('Filter GeoJSON')
+    st.set_page_config(
+        layout="wide", page_title="GIS SchaGaDu", page_icon="🗺️",)
+    st.title('SchaGaDu GIS')
 
     # Read GeoJSON data
     geojson_data = None
@@ -113,7 +114,7 @@ def style_function(feature):
 # Create a Folium map centered at a specific location
 height = 600
 max_width = 1000
-m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width=max_width, height=height)
+m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width='100%', height=height)
 
 wms_url = 'https://wms.geo.admin.ch/'
 wms_layer = folium.raster_layers.WmsTileLayer(
@@ -169,10 +170,3 @@ geojson_layer = folium.GeoJson(
 # Display the Folium map with click event handler
 #folium_element = folium.Element(m._repr_html_() + js_click_handler)
 folium_element = folium_static(m, width=max_width, height=height)
-#popup_html = "href=https://example.com/"
-#m.add_child(folium.Popup("outline Popup on GeoJSON"))
-#st.markdown(f'<iframe srcdoc="{m}" style="width: 100%; height: 500px; border: none"></iframe>', unsafe_allow_html=True)
-
-
-
-

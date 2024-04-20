@@ -7,6 +7,7 @@ import pandas as pd
 
 # Read the GeoJSON file
 geojson_data_path = "https://raw.githubusercontent.com/Pizzzetti/Public/main/Streamlit/SchaGaDu_v3.json"
+geojson_data_path = "https://raw.githubusercontent.com/Pizzzetti/Public/main/Streamlit/SchaGaDu_v5_filtered_add.json"
 link_path = f'<a href="https://www.gazzetta.it">Gazzetta</a>'
 
 # Function to get unique values for a specific property in GeoJSON
@@ -28,6 +29,7 @@ def create_dataframe(selected_feature):
         data[key] = [value]
     df = pd.DataFrame(data)
     return df
+
 def get_filtered_GeoJSON(geojson_data_path):
     # Streamlit app
     st.set_page_config(layout='wide')
@@ -92,7 +94,7 @@ def style_function(feature):
         weight_shape = 0.5
     else:
         border_color = fill_color  # Set border color to fill color for other geometries
-        weight_shape = 2
+        weight_shape = 3
 
     # Create a custom tooltip with the name of the feature and additional fields
     tooltip_content = '<h5>{}</h5>'.format(feature['properties']['INV_KEY'])  # Initial tooltip content
@@ -104,7 +106,8 @@ def style_function(feature):
         'color': border_color,    # Set border color to the same as fill color
         'weight': weight_shape,            # Border weight
         'fillOpacity': 0.5,     # Opacity of the filled area
-        'tooltip': tooltip_content  # Add custom tooltip
+        'tooltip': tooltip_content,  # Add custom tooltip
+        'interactive': True  # Disable interactivity to hide selection rectangle
     }
 
 # Create a Folium map centered at a specific location
@@ -129,15 +132,13 @@ tooltip = folium.GeoJsonTooltip(
     sticky=False,
     labels=True,
     style="""
-        background-color: #F0EFEF;
-        border: 2px solid black;
-        border-radius: 3px;
-        box-shadow: 3px;
+        background-color: #FFFFFF;
+        border: 1px solid black;
+        border-radius: 2px;
+        box-shadow: 2px;
     """,
     max_width=800,
 )
-
-
 
 GeoJsonPopup = folium.GeoJsonPopup(
     fields=["INV_KEY", "OBJ_NAME","link"],
@@ -147,45 +148,33 @@ GeoJsonPopup = folium.GeoJsonPopup(
     style="background-color: yellow;"
 )
 # Update GeoJsonPopup's HTML content to include clickable link
-# Update GeoJsonPopup's HTML content to include clickable link
-# Update GeoJsonPopup's HTML content to include clickable link
-if False:
-    GeoJsonPopup.template = """
-    {% macro html(this, kwargs) %}
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-    {% for field in this.fields %}
-        <h5>{{ this.aliases[loop.index] }}</h5>
-        {% if field == "link" %}
-            <a href="{{ this._parent.get_obj(this.obj)[field] }}">{{ this._parent.get_obj(this.obj)[field] }}</a>
-        {% else %}
-            {{ field }}
-        {% endif %}
-    {% endfor %}
-    </body>
-    </html>
-    {% endmacro %}
-    """
 
 filtered_geojson,property_vec,property_unique_value = get_filtered_GeoJSON(geojson_data_path)
 # Add GeoJSON layer to the map with styled features
 geojson_layer = folium.GeoJson(
     filtered_geojson,
     style_function=style_function,
-    highlight_function=lambda x: {
-        'fillOpacity':1
+    highlight_function=lambda feature: {
+        'fillColor': 'red',  # Change fill color of highlighted feature
+        'color': 'red',  # Change border color of highlighted feature
+        'weight': 2,  # Adjust border weight of highlighted feature
+        'fillOpacity': 0.5,  # Adjust opacity of highlighted feature
     },
     tooltip=tooltip,
-    popup=GeoJsonPopup
-        #folium.features.GeoJsonTooltip(
-        #fields=['INV_KEY', 'OBJ_NAME', 'KB'],  # Add more fields here
-        #aliases=['KEY:', 'OBJ:', 'ZK:'],  # Add aliases for the fields
-).add_to(m)
+    popup=GeoJsonPopup).add_to(m)
+
+# Define custom CSS styles
+custom_css = """
+<style>
+/* Apply CSS style to path.leaflet-interactive:focus */
+path.leaflet-interactive:focus {
+    outline: none;
+}
+</style>
+"""
+
+# Add custom CSS styles to the map
+m.get_root().html.add_child(folium.Element(custom_css))
 
 # Display the Folium map with click event handler
 #folium_element = folium.Element(m._repr_html_() + js_click_handler)
@@ -194,18 +183,6 @@ folium_element = folium_static(m, width=1600, height=height)
 #m.add_child(folium.Popup("outline Popup on GeoJSON"))
 st.markdown(f'<iframe srcdoc="{m}" style="width: 100%; height: 500px; border: none"></iframe>', unsafe_allow_html=True)
 
-#st.markdown(f'<iframe srcdoc="{popup_html}" style="width: 100%; height: 500px; border: none"></iframe>', unsafe_allow_html=True)
-
-
-#st.write(folium_element)
-
-# Display properties of selected object in a table
-#if 'selected_properties' in st.session_state.values:
-#    st.write("Properties of selected polygon:")
-#    selected_properties = st.session_state.selected_properties
-#    st.write(selected_properties)
-
-#    folium_static(m.add_child(folium.Element(click_script)), width=1600, height=height)
 
 
 

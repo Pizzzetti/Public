@@ -82,7 +82,7 @@ def color_by_kb(kb_value):
     if kb_value == 1:
         return '#46c846'  # Green (70, 200, 70)
     elif kb_value == 2:
-        return '#e6e61e'  # Yellow (200, 230, 30)
+        return '#c8e61e'  # Yellow (200, 230, 30)
     elif kb_value == 3:
         return '#ffff00'  # Yellow (255, 255, 0)
     elif kb_value == 4:

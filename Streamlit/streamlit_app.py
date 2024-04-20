@@ -112,9 +112,9 @@ def style_function(feature):
     }
 
 # Create a Folium map centered at a specific location
-height = 600
+height = 300
 max_width = 1000
-m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width='100%', height=height)
+m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width='100%', height='100%')
 
 wms_url = 'https://wms.geo.admin.ch/'
 wms_layer = folium.raster_layers.WmsTileLayer(
@@ -139,7 +139,7 @@ tooltip = folium.GeoJsonTooltip(
         border-radius: 2px;
         box-shadow: 2px;
     """,
-    max_width=800,
+    max_width=max_width,
 )
 
 GeoJsonPopup = folium.GeoJsonPopup(

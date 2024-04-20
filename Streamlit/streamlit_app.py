@@ -44,14 +44,17 @@ def get_filtered_GeoJSON(geojson_data_path):
             geojson_data = response.json()
 
     # Sidebar for filter selection
-    st.sidebar.subheader('Filter Selection')
+    sub1 = st.sidebar.subheader('Filter by property')
     property_vec = ['ALL'] + list(geojson_data['features'][0]['properties'].keys())
-    filter_field = st.sidebar.selectbox('Choose a property:', options = property_vec)
-    #filter_field = st.multiselect('Choose a property:', options = property_vec)
-    property_unique_value = get_unique_property_values(geojson_data, filter_field)
-    #filter_value = st.sidebar.selectbox('Choose a value:', options = property_unique_value)
-    filter_values = st.multiselect('Choose a value:', options = property_unique_value)
+    filter_field = st.sidebar.selectbox('Choose a property:', options=property_vec)
+    
+    st.sidebar.markdown('---')
 
+    sub2 = st.sidebar.subheader('Filter by value')
+    # Get unique values for the selected property
+    property_unique_value = get_unique_property_values(geojson_data, filter_field)
+    # Multiselect for selecting multiple values
+    filter_values = st.sidebar.multiselect('Choose a value:', options=property_unique_value)
 
     # Filter GeoJSON features based on selected criteria
     if filter_field == 'ALL' or filter_values == []:
@@ -112,8 +115,6 @@ def style_function(feature):
     }
 
 # Create a Folium map centered at a specific location
-height = 300
-max_width = 1000
 m = folium.Map(location=[46.29518, 8.04795], zoom_start=14, tiles=None, width='100%', height='100%')
 
 wms_url = 'https://wms.geo.admin.ch/'
@@ -139,7 +140,7 @@ tooltip = folium.GeoJsonTooltip(
         border-radius: 2px;
         box-shadow: 2px;
     """,
-    max_width=max_width,
+    max_width=300,
 )
 
 GeoJsonPopup = folium.GeoJsonPopup(
@@ -169,4 +170,7 @@ geojson_layer = folium.GeoJson(
 
 # Display the Folium map with click event handler
 #folium_element = folium.Element(m._repr_html_() + js_click_handler)
-folium_element = folium_static(m, width=max_width, height=height)
+height = 800
+max_width = 1800
+folium_element = folium_static(m,width=max_width,height=height)#, width=max_width, height=height)
+# Add custom CSS to maximize the width of the map container

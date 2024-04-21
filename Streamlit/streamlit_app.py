@@ -176,3 +176,5 @@ with col2:
     height = 450
     max_width = 1000
     folium_element = folium_static(m,width=max_width,height=height)#, width=max_width, height=height)
+
+    m.save('C:/Users/luca.pizzetti/Downloads/LeafletMap-master/LeafletMap-master/map.html')

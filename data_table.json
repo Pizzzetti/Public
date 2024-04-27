@@ -1,0 +1,54 @@
+{
+	"features": [
+		{
+			"Company": "Alfreds Futterkiste",
+			"Contact": "Maria Anders",
+			"Country": "Germany"
+		},
+		{
+			"Company": "Berglunds snabbköp",
+			"Contact": "Christina Berglund",
+			"Country": "Sweden"
+		},
+		{
+			"Company": "Centro comercial Moctezuma",
+			"Contact": "Francisco Chang",
+			"Country": "Mexico"
+		},
+		{
+			"Company": "Ernst Handel",
+			"Contact": "Roland Mendel",
+			"Country": "Austria"
+		},
+		{
+			"Company": "Island Trading",
+			"Contact": "Helen Bennett",
+			"Country": "UK"
+		},
+		{
+			"Company": "Königlich Essen",
+			"Contact": "Philip Cramer",
+			"Country": "Germany"
+		},
+		{
+			"Company": "Laughing Bacchus Winecellars",
+			"Contact": "Yoshi Tannamuri",
+			"Country": "Canada"
+		},
+		{
+			"Company": "Magazzini Alimentari Riuniti",
+			"Contact": "Giovanni Rovelli",
+			"Country": "Italy"
+		},
+		{
+			"Company": "North/South",
+			"Contact": "Simon Crowther",
+			"Country": "UK"
+		},
+		{
+			"Company": "Paris spécialités",
+			"Contact": "Marie Bertrand",
+			"Country": "France"
+		}
+	]
+}

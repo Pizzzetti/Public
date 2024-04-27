@@ -1,32 +1,22 @@
 [
   {
-    "nome": "Mario",
-    "cognome": "Rossi",
-    "eta": 30
+    "Company": "Alfreds Futterkiste",
+    "Contact": "Maria Anders",
+    "Country": "Germany"
   },
   {
-    "nome": "Luigi",
-    "cognome": "Verdi",
-    "eta": 25
+    "Company": "Berglunds snabbköp",
+    "Contact": "Christina Berglund",
+    "Country": "Sweden"
   },
   {
-    "nome": "Anna",
-    "cognome": "Bianchi",
-    "eta": 35
+    "Company": "Belloli SA",
+    "Contact": "Luca Pizzetti",
+    "Country": "Switzerland"
   },
   {
-    "nome": "Anna",
-    "cognome": "Bianchi",
-    "eta": 35
-  },
-  {
-    "nome": "Anna",
-    "cognome": "Bianchi",
-    "eta": 35
-  },
-  {
-    "nome": "Anna",
-    "cognome": "Bianchi",
-    "eta": 35
+    "Company": "Berglunds snabbköp",
+    "Contact": "Christina Berglund",
+    "Country": "Sweden"
   }
 ]
